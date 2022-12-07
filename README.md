@@ -3,6 +3,10 @@ A Python-based database management system utilizing sqlite3 module. Allows easy 
 
 <img src="https://i.imgur.com/NfdERT5.png" width="400px" align="center">
 
+```python
+print('python')
+```
+
 <img src="https://i.imgur.com/RA8FlnE.png" width="400px" align="center">
 
 <img src="https://i.imgur.com/BNQ8q8W.png" width="400px" align="center">
