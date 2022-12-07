@@ -1,15 +1,15 @@
 # Chucklenuts_DBL
-A Python-based database management system utilizing sqlite3 module. Allows easy creation, deletion, and managment of database components and powerful console based applications for db interactions.
+A Python-based database management system utilizing sqlite3 module. Allows easy creation, deletion, and managment of database components and powerful console based applications for db interactions. This program stands out as an easy and fast solution to small application usages due to its tools for database visualization, creation and interaction.
 
-<img src="https://i.imgur.com/NfdERT5.png" width="400px" align="center">
+<img src="https://i.imgur.com/NfdERT5.png" width="150px" align="center">
 
 ## Written in Python 3
 
-<img src="https://i.imgur.com/RA8FlnE.png" width="400px" align="center">
+<img src="https://i.imgur.com/RA8FlnE.png" width="150px" align="center">
 
 ## Uses Sqlite3 for Python
 
-<img src="https://i.imgur.com/BNQ8q8W.png" width="400px" align="center">
+<img src="https://i.imgur.com/BNQ8q8W.png" width="150px" align="center">
 
 ## Written on Linux for Linux (Windows being tested)
 
