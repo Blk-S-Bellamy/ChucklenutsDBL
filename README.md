@@ -1,21 +1,20 @@
 # Chucklenuts_DBL
 A Python-based database management system utilizing sqlite3 module. Allows easy creation, deletion, and managment of database components and powerful console based applications for db interactions. This program stands out as an easy and fast solution to small application usages due to its tools for database visualization, creation and interaction.
 
-*Need help with functions, setup, bugs, or suggestions? Visit the wiki and take a look around. All in-depth documentation in stored there and updates will see new content there*
+* 🔺NOTE: Although incredibly fast, Sqlite3 for python is not capable of simultaneous database fetch requests and for this reason, this is not for applications such as web applications or any programs in need of multiple data requests in a single instance! For these uses, A MySQL database would be a better option.
 
-<img src="https://i.imgur.com/NfdERT5.png" width="150px" align="center">
+*Need help with functions, setup, bugs, or suggestions? Visit the wiki and take a look around. All in-depth documentation is stored there and updates will see new content there*
 
 ## Written in Python 3
-
-<img src="https://i.imgur.com/RA8FlnE.png" width="150px" align="center">
+<img src="https://i.imgur.com/NfdERT5.png" width="150px" align="center">
 
 ## Uses Sqlite3 for Python
-
-<img src="https://i.imgur.com/BNQ8q8W.png" width="150px" align="center">
+<img src="https://i.imgur.com/RA8FlnE.png" width="150px" align="center">
 
 ## Written on Linux for Linux (Windows being tested)
+<img src="https://i.imgur.com/BNQ8q8W.png" width="150px" align="center">
 
-**Create A Database in Moments!**
+## Create A Database in Moments!
 Easily create multiple databases filled with custom tables and variables simply by adding variables, tables, and databases to lists and running the setup! 
 All commands for database creation are handled by the program meaning, when a change is made to the structure, a function call will add the needed components.
 
