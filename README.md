@@ -1,7 +1,9 @@
 # Chucklenuts_DBL
 A Python-based database management system utilizing sqlite3 module. Allows easy creation, deletion, and managment of database components and powerful console based applications for db interactions. This program stands out as an easy and fast solution to small application usages due to its tools for database visualization, creation and interaction.
 
-* 🔺NOTE: Although incredibly fast, Sqlite3 for python is not capable of simultaneous database fetch requests and for this reason, this is not for applications such as web applications or any programs in need of multiple data requests in a single instance! For these uses, A MySQL database would be a better option.
+* 🔺 CNDBL is under continuing development and as such, will have more features and branches added in the future. Any suggestions are greatly appreciated.
+
+* 🔺 NOTE: Although incredibly fast, Sqlite3 for python is not capable of simultaneous database fetch requests and for this reason, this is not for applications such as web applications or any programs in need of multiple data requests in a single instance! For these uses, A MySQL database would be a better option.
 
 *Need help with functions, setup, bugs, or suggestions? Visit the wiki and take a look around. All in-depth documentation is stored there and updates will see new content there*
 
