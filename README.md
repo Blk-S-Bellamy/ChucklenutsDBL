@@ -12,10 +12,10 @@ A Python-based database management system utilizing sqlite3 module. Allows easy 
 
 *Need help with functions, setup, bugs, or suggestions? Visit the wiki and take a look around. All in-depth documentation is stored there and updates will see new content there*
 
-## Written in Python 3
+## [Written in Python 3](https://docs.python.org/3/index.html)
 <img src="https://i.imgur.com/NfdERT5.png" width="150px" align="center">
 
-## Uses Sqlite3 for Python
+## [Uses Sqlite3 for Python](https://docs.python.org/3/library/sqlite3.html)
 <img src="https://i.imgur.com/RA8FlnE.png" width="150px" align="center">
 
 ## Written on Linux for Linux (Windows being tested)
