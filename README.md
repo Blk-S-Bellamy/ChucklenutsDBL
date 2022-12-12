@@ -56,6 +56,7 @@ Using the console, switch between database, search for variables in the database
 * Added a failsafe to catch when variables mentioned in table creation are not in the variable dictionary
 	and prints the information before terminating
 * Added a failsafe to catch when tables in db_and_table_list and table_variable_keys don't match
+* Removed commands() function in favor of referencing the CNDBL wiki
 
 
 ### BETA
