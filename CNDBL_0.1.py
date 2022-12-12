@@ -3,7 +3,7 @@ import time
 import os
 from pathlib import Path
 
-cndbl_version = 'Beta'
+cndbl_version = '0.1'
 cwd = os.path.realpath(os.path.dirname(__file__))
 
 # contains databases and their tables. use function() to view instructions on format
@@ -25,6 +25,28 @@ def clear():
 # Make tables and databases if they do not exist as listed in startup section
 def refresh_database_structures():
     global db_and_table_list
+    # table names not accepted by Sqlite3
+    variable_indexes = []
+    ls = []
+    fixit = ['table']
+    fixit_list = []
+
+    nfix = False
+    # Make sure all the given table names are allowed and if not, return and print bad table names
+    for item in db_and_table_list:
+        for thing in item[1]:
+            if thing in fixit:
+                nfix = True
+                fixit_list.append(thing)
+            else:
+                pass
+        if nfix is True:
+            errors_ = generate_var_par(fixit_list)
+            print(f'::Error:: the following table names are not allowed by Sqlite:\n{errors_}\nterminating...')
+            exit()
+        else:
+            pass
+
     # contains all finished commands to be executed later
     type_var_list = []
 
@@ -39,12 +61,24 @@ def refresh_database_structures():
 
         for table in table_list:
             # print(table)
-            variable_indexes = table_variable_keys[table]
+            try:
+                variable_indexes = table_variable_keys[table]
+            except KeyError:
+                print(f'::Error:: table \"{table}\" in \"db_and_table_list\" is not in \"table_variable_keys\"')
+                print('terminating...')
+                exit()
             # print(len(variable_indexes))
 
             type_var_list.clear()
             for index in variable_indexes:
-                ls = table_variables_dict[index]
+                try:
+                    ls = table_variables_dict[index]
+                except KeyError:
+                    print(
+                        f'::Error:: variable \"{index}\" from \"table_variable_keys\" is not in'
+                        f' \"table_variables_dict\"')
+                    print('terminating...')
+                    exit()
                 type_var_list.append(ls)
 
                 # will see if all the variables for the current table are added to the list and submit them to be
@@ -128,7 +162,7 @@ def generate_var_par(var_list):
     return body
 
 
-# finds the number to represent variables 
+# finds the number to represent variables
 def db_table_decoder(database, table):
     global db_and_table_list
     # finds numerical representation of the variables used in that table
@@ -140,7 +174,7 @@ def db_table_decoder(database, table):
     return database, table.upper(), variables
 
 
-# will return an array of lists with a database and their tables, and variables 
+# will return an array of lists with a database and their tables, and variables
 def find_database_structure():
     global db_and_table_list
 
@@ -488,7 +522,7 @@ or enter 'q' to exit Terminal Manager
 ex = []
 
 
-# opens a terminal to search a database using sql 
+# opens a terminal to search a database using sql
 def database_terminal(db_name):
     global ex
     db, db_pathway = db_pathfinder(db_name)
@@ -674,29 +708,103 @@ PATHWAY: {db_pathway}
     return True
 
 
+# used for selecting from a database using a function call and then returning results
+def db_sel(database_name, ex_):
+    name, pathway = db_pathfinder(database_name)
+    results_l = []
+
+    # connect to a database and if it doesn't exist, terminate the function call
+    try:
+        conn = sqlite3.connect(Path(pathway))
+        c = conn.cursor()
+    except (sqlite3.OperationalError, sqlite3.ProgrammingError, FileNotFoundError):
+        print(f'::ERROR:: database \"{name}\" does not exist, please check the database list')
+        return False, ''
+
+    # check if the passed command variable is a list or a string and execute accordingly
+    if isinstance(ex_, list):
+        # for every command in passed list, execute and save the result into a dictionary
+        for item in ex_:
+            try:
+                c.execute(f'{item}')
+
+                data = c.fetchall()
+                for result in data:
+                    results_l.append(result)
+            except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
+                print(err)
+                exit()
+        return True, results_l
+    elif isinstance(ex_, str):
+        # execute the single command givin in string form and return the result
+        try:
+            c.execute(f'{ex_}')
+            results_s = c.fetchall()
+            conn.close()
+            return True, results_s
+        except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
+            print(err)
+            exit()
+    else:
+        print('::ERROR:: Passed select query must be either \'List\' or \'str\' type')
+        exit()
+
+
+# used for running commands without returning data
+def db_ex(database_name, ex_):
+    name, pathway = db_pathfinder(database_name)
+
+    # connect to a database and if it doesn't exist, terminate the function call
+    try:
+        conn = sqlite3.connect(Path(pathway))
+        c = conn.cursor()
+    except (sqlite3.OperationalError, sqlite3.ProgrammingError, FileNotFoundError):
+        print(f'::ERROR:: database \"{name}\" does not exist, please check the database list')
+        return False
+
+    # check if the passed command variable is a list or a string and execute accordingly
+    if isinstance(ex_, list):
+        # for every command in passed list, execute the string
+        for item in ex_:
+            try:
+                c.execute(f'{item}')
+            except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
+                print(err)
+                exit()
+        conn.commit()
+        conn.close()
+        return True
+    elif isinstance(ex_, str):
+        # execute the single command given in string form
+        try:
+            c.execute(f'{ex_}')
+            conn.commit()
+            conn.close()
+            return True
+        except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
+            print(err)
+            exit()
+    else:
+        print('::ERROR:: Passed select query must be either \'List\' or \'str\' type')
+        exit()
+
+
 def program_info():
     info = (f'''   
 -------------------------------------------------------------
     Chucklenuts_DBL.{cndbl_version} Program information:
 -------------------------------------------------------------
-USE setup() TO VIEW SETUP INFORMATION, USE commands() TO VIEW ALL COMMANDS
-_________
-FUNCTION: 
-This program has been created for the purpose of easy database creation
-management, web integration, and database manipulation. All features are written with
-the user in mind and code is sorted as well as commented for easy additions
 ____________
 OS VERSIONS: 
 Linux, tested on: (debian, ubuntu, pop OS)
-Windows, tested on (Windows 10)
-MAC OS, not supported
+Windows, (NOT SUPPORTED)
+MAC OS, (NOT SUPPORTED)
 _________________
 WEB CONNECTIVITY:
 All functions are offline
 _________
-DATABASE: 
-Chucklenuts_DBL.{cndbl_version} is a light-weight version of Chucklenuts_DB and
-as such, uses SQlight3 for Python
+DBMS: 
+Chucklenuts_DBL.{cndbl_version} uses SQlight3 for Python
 _______________
 THREAD USAGE: 1
 DEVELOPER: DrDoofinshmekel
@@ -704,41 +812,3 @@ GITHUB: https://github.com/DrDoofinshmekel'''
             )
     print(info)
 
-
-def commands():
-    commands_ = '''
-------------------------------------------------------------------------------
-FUNCTIONS
-------------------------------------------------------------------------------
-________________
->>program_info()
-will return version info including dev, functionality and support information
-_______________________________
->>refresh_database_structures()
-will created databases and tables if they do not exist. will not overwrite any data!
-___________________________
->>find_database_structure()
-Will return an array containing a list of ([database[table, [variable, type]]],
-[database[table[variable, type]][table[variable, type]])
-NOT FOR A VISUAL REPRESENTATION OF DATABASE STRUCTURE! try using 'generate_db_visualizer()' instead
-__________________________
->>generate_db_visualizer()
-Will return (bool, structure). the boolean tells if the function succeeded, the string can be printed and will show the
-database structure
-______________________________
->>poke_dbs(database_nm, table)
-poke_dbs (database structure) returns lists containing structural sections of the databases.
-will return with [0] being True or False and [1] being the returned list or error
-enter a database name and table name to return its variables and types: ('database', 'table') 
-OR pass the name of a database and the tables in that database will be returned: ('database', '')
-OR pass both empty to return a list of databases ('', '')
-_____________
-poke_dbs_ui()
-a command line utility which makes using poke_dbs user friendly. can be used to
-look at full database structure, search for database, tables, or view  variables in tables
-also can be used to view insert commands for tables and their variables
-
-
-------------------------------------------------------------------------------
-'''
-    print(commands_)
