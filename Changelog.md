@@ -1,5 +1,11 @@
 # Changelog of Chucklenuts_DBL
 
+### Version 0.2, **12/27/22**
+
+**ADDITIONS:**
+* Added "in_tuple()" to generate a list of tuples with a combination of lists and static variables. Useful for database insertion using "input_mult(). Wee wiki for documentation and usage"
+* Added "rds()" function alias for "refresh_database_structures()". (can call the function with both calls)
+
 ### Version 0.1, **12/11/22**
 
 **ADDITIONS:**
