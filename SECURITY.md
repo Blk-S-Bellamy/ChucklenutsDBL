@@ -2,11 +2,14 @@
 
 ## Supported Versions
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 0.2| :white_check_mark: |
-| 0.1| :white_check_mark: |
-| Beta| :x: |
+|OS| Version | Supported          |
+| ----- | ------- | ------------------ |
+|Windows 10| 0.2| :white_check_mark: |
+|Debian/ubuntu| 0.2| :white_check_mark: |
+|Windows 10| 0.1| :white_check_mark: |
+|Debian/ubuntu| 0.1| :white_check_mark: 
+|Windows 10| Beta| :x: |
+|Debian/ubuntu| Beta| :x: |
 
 ## Reporting a Vulnerability
 
