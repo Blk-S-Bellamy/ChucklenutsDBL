@@ -12,6 +12,9 @@
 * Added "g_dbv" function alias for "generate_db_visualizer()".
 * Added "t_man()" function alias for "terminal_manager()".
 
+**FIXES**
+* Fixed visual error in "terminal_manager" function
+
 ### Version 0.1, **12/11/22**
 
 **ADDITIONS:**
