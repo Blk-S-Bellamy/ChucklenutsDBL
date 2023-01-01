@@ -3,7 +3,9 @@
 ### Version 0.2, **12/27/22** >>NOT YET FINISHED<<
 
 **ADDITIONS:**
-* Added "in_tuple()" to generate a list of tuples with a combination of lists and static variables. Useful for database insertion using "input_mult(). refer to the wiki for documentation and usage"
+* Added "cond_input()" which is used for entering data into a database only when it is not already there. Any of the passed input variables can be used as a condition when submitting the variables and the function is capable of inputing data from tuples containing a mix of lists and static variables.
+refer to the wiki for documentation and usage.
+* Added "in_tuple()" to generate a list of tuples with a combination of lists and static variables. Useful for database insertion using "input_mult()". refer to the wiki for documentation and usage
 
 *ALIASES* (can call functions with alternate names)
 * Added "rds()" function alias for "refresh_database_structures()".
@@ -14,6 +16,10 @@
 
 **FIXES**
 * Fixed visual error in "terminal_manager" function
+* Fixed sel_one() bug which returned "True" when the selection returned nothing 
+
+**CHANGES:**
+* Changed the order of functions to organize by type and function level
 
 ### Version 0.1, **12/11/22**
 
