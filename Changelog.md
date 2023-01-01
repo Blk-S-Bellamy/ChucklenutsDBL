@@ -1,6 +1,6 @@
 # Changelog of Chucklenuts_DBL
 
-### Version 0.2, **12/27/22** >>NOT YET FINISHED<<
+### Version 0.2, **01/01/23** 
 
 **ADDITIONS:**
 * Added "cond_input()" which is used for entering data into a database only when it is not already there. Any of the passed input variables can be used as a condition when submitting the variables and the function is capable of inputing data from tuples containing a mix of lists and static variables.
