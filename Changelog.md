@@ -1,6 +1,6 @@
 # Changelog of Chucklenuts_DBL
 
-### Version 0.2, **01/01/23** 
+## Version 0.2, **01/01/23** 
 
 **ADDITIONS:**
 * Added "cond_input()" which is used for entering data into a database only when it is not already there. Any of the passed input variables can be used as a condition when submitting the variables and the function is capable of inputing data from tuples containing a mix of lists and static variables.
@@ -21,7 +21,7 @@ refer to the wiki for documentation and usage.
 **CHANGES:**
 * Changed the order of functions to organize by type and function level
 
-### Version 0.1, **12/11/22**
+## Version 0.1, **12/11/22**
 
 **ADDITIONS:**
 
@@ -36,7 +36,7 @@ refer to the wiki for documentation and usage.
 * Removed commands() function in favor of referencing the CNDBL wiki.
 
 
-### BETA
+## BETA
 
 Initial launch of CNDBL with most basic features and tools.
 
