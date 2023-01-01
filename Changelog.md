@@ -1,6 +1,6 @@
 # Changelog of Chucklenuts_DBL
 
-### Version 0.2, **12/27/22**
+### Version 0.2, **12/27/22** >>NOT YET FINISHED<<
 
 **ADDITIONS:**
 * Added "in_tuple()" to generate a list of tuples with a combination of lists and static variables. Useful for database insertion using "input_mult(). refer to the wiki for documentation and usage"
