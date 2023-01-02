@@ -823,15 +823,6 @@ is higher than the number of table variables: \"{table}\" with \"0-{compare2 - 1
 	# delete all indexes found to be duplicate using pop(index) wit two versions of the list <<
 	# then submit all remaining of the inserts to input_mult function
 	
-	
-
-refresh_database_structures()
-
-l3 = [1, 2, 3, 4, 5]
-# print(cond_generate_tup(('one', l1, 'two'))[1])	
-	
-cond_input('testing', 'tdata', ('testing', 1, 'data1', 'data2'), [0])
-
 
 def program_info():
     info = (f'''   
