@@ -805,14 +805,17 @@ is higher than the number of table variables: \"{table}\" with \"0-{compare2 - 1
 	
 	# will use condition list, table, db name, and input tuple(s) to search and remove existing data tuples from the
 	# list of data to be entered 
-	unq = inputs_list = cond_sel_filter(database, table, inputs, cond_index, has_list)
+	unq, inputs_list = cond_sel_filter(database, table, inputs, cond_index, has_list)
+	print(unq)
+	print(inputs_list)
 	
 	# input the data into a database
-	if has_list is True and unq[0] is True:
-		input_mult(database, table, unq[1])
-	elif has_list is False and unq[0] is True:
-		single = unq[1]
-		input_one(database, table, single[0])
+	if has_list is True and unq is True:
+		input_mult(database, table, inputs_list)
+	elif has_list is False and unq is True:
+		single = tuple(inputs_list[0])
+		print(inputs_list[0])
+		input_one(database, table, single)
 	else:
 		pass
 	return 
@@ -822,7 +825,7 @@ is higher than the number of table variables: \"{table}\" with \"0-{compare2 - 1
 	# code to select the given indexes and compare them to the input indexes
 	# delete all indexes found to be duplicate using pop(index) wit two versions of the list <<
 	# then submit all remaining of the inserts to input_mult function
-	
+
 
 def program_info():
     info = (f'''   
@@ -1082,5 +1085,3 @@ rds = refresh_database_structures  # refresh_database_structure()
 t_man = terminal_manager  # terminal_manager()
 dbt = database_terminal  # database_terminal()
 g_dbv = generate_db_visualizer  # generate_db_visualizer()
-
-
