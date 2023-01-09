@@ -44,6 +44,12 @@ Using the console, switch between database, search for variables in the database
 
 # Changelog of Chucklenuts_DBL
 
+## 0.2 Patch 1, **01/08/23**
+
+**FIXES**
+* Fixed sloppy syntax in "cond_input()"
+* Fixes misc errors in "db_sel()"
+
 ## Version 0.2, **01/01/23**
 
 **ADDITIONS:**
