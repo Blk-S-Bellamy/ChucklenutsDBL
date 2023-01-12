@@ -18,8 +18,9 @@ A Python-based database management system utilizing sqlite3 module. Allows easy 
 ## [Uses Sqlite3 for Python](https://docs.python.org/3/library/sqlite3.html)
 <img src="https://i.imgur.com/RA8FlnE.png" width="150px" align="center">
 
-## Written on Linux for Linux (Windows being tested)
+## Written on Linux for Linux and Windows 10
 <img src="https://i.imgur.com/BNQ8q8W.png" width="150px" align="center">
+<img src="https://i.imgur.com/GuuJ17W.png" width="150px" align="center">
 
 ## Create A Database in Moments!
 Easily create multiple databases filled with custom tables and variables simply by adding variables, tables, and databases to lists and running the setup! 
