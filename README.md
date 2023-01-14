@@ -1,5 +1,5 @@
 # Chucklenuts_DBL
-### accelerated versatility in data storage
+### Accelerated Versatility in Data Storage
 
 A Python-based database management system utilizing sqlite3 module. Allows easy creation, deletion, and managment of database components and powerful console based applications for db interactions. This program stands out as an easy and fast solution to small application usages due to its tools for database visualization, creation and interaction.
 
