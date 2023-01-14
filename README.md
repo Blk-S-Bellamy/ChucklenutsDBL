@@ -1,4 +1,6 @@
 # Chucklenuts_DBL
+### accelerated versatility in data storage
+
 A Python-based database management system utilizing sqlite3 module. Allows easy creation, deletion, and managment of database components and powerful console based applications for db interactions. This program stands out as an easy and fast solution to small application usages due to its tools for database visualization, creation and interaction.
 
 * Use functions for easy integration of a database into a program without the code bloating of direct integration into native functions
