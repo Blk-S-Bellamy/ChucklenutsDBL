@@ -2,8 +2,9 @@ import sqlite3
 import time
 import os
 from pathlib import Path
+import json
 
-cndbl_version = '0.2'
+cndbl_version = '0.3'
 cwd = os.path.realpath(os.path.dirname(__file__))
 
 # contains databases and their tables. use function() to view instructions on format
@@ -15,10 +16,10 @@ table_variable_keys = {'tdata': [1, 2, 3, 4]}
 # contained is variables and their data type in accordance with sqlite3 datatype format. these can be called in creation
 # of tables as references for their variables
 table_variables_dict = {1: ["name", "TEXT"],
-						2: ["number", "REAL"],
-						3: ["test_par1", "TEXT"],
-						4: ["test_par2", "TEXT"]
-						}
+                        2: ["number", "REAL"],
+                        3: ["test_par1", "TEXT"],
+                        4: ["test_par2", "TEXT"]
+                        }
 
 
 # clears the console for both Windows and Linux
@@ -139,45 +140,6 @@ def generate_tables(db_nme, table_name, var_type_list):
         print('::ERROR:: in generation of sqlite3 command, (' + str(e) + ')')
 
 
-# print(commandslist)
-
-
-# will generate the blank question tuple used in insert commands for sqlite3
-def generate_blank_par(number):
-    variable = '?, ' * number
-    v_len = (len(variable) - 2)
-    fvariable = variable[0:v_len]
-    prefix = '('
-    postfix = ')'
-    complete = f'{prefix}{fvariable}{postfix}'
-    return complete
-
-
-# generate a tuple from a list of strings and insert the variables into the tuple like so: ['one', 'two']
-# >returns> ('one', 'two')
-def generate_var_par(var_list):
-    postfix = ')'
-    body = '('
-    for item in var_list:
-        body += f'{item}, '
-
-    body = body[0:(len(body) - 2)]
-    body += postfix
-    return body
-
-
-# finds the number to represent variables
-def db_table_decoder(database, table):
-    global db_and_table_list
-    # finds numerical representation of the variables used in that table
-    keys = table_variable_keys[table]
-    # finds the actual variables and their types for use in database construction
-    variables = [table_variables_dict[item] for item in keys]
-    # print(variables)
-
-    return database, table.upper(), variables
-
-
 # will return an array of lists with a database and their tables, and variables
 def find_database_structure():
     global db_and_table_list
@@ -194,45 +156,6 @@ def find_database_structure():
             temp.append(table_info[1:3])
         structure_list.append([entry[0], temp])
     return structure_list
-
-
-# organizes the output of 'find_database_structure()' to be more visually appealing
-def generate_db_visualizer():
-    # contains each database, the tables, variables, and types. seperated in list form
-    base_format = '''\n
-                DATABASE
-        TABLES		+======+
-TYPE:VARIABLES	+====+		|		
-+---------------+---------------+
-| CHUCKLENUTS	|DBL		|
-'''
-
-    s1 = find_database_structure()
-    addition = ''
-    for entry in s1:
-        database = entry[0]
-        addition += f'+---------------+---------------+vv{database}\n'
-        # a list containing table names [0] and the variable type pairs for [1] of each list "[table, [[var, type],
-        # [var, type]]]"
-        tbl_and_var = entry[1]
-
-        for item in tbl_and_var:
-            # contains the variables and types in a format to be added to the final result
-
-            var_pairs = item[1]
-            table = item[0]
-
-            addition += f'+---------------+{table}\n'
-            for entr in var_pairs:
-                type_ = entr[1]
-                var = entr[0]
-
-                # adds a pair of variables and it's type
-                addition += f'>{type_}: {var}\n'
-        addition += '+---------------+---------------+^^\n\n'
-    visualized = base_format + addition
-
-    return True, visualized
 
 
 # used to find table, database, or variable structure. documentation
@@ -276,6 +199,530 @@ def poke_dbs(database_nm, table):
         else:
             pass
     return False, f'database: \"{database_nm}\" does not exist'
+
+
+# will generate the blank question tuple used in insert commands for sqlite3
+def generate_blank_par(number):
+    variable = '?, ' * number
+    v_len = (len(variable) - 2)
+    fvariable = variable[0:v_len]
+    prefix = '('
+    postfix = ')'
+    complete = f'{prefix}{fvariable}{postfix}'
+    return complete
+
+
+# generate a tuple from a list of strings and insert the variables into the tuple like so: ['one', 'two']
+# >returns> ('one', 'two')
+def generate_var_par(var_list):
+    postfix = ')'
+    body = '('
+    for item in var_list:
+        body += f'{item}, '
+
+    body = body[0:(len(body) - 2)]
+    body += postfix
+    return body
+
+
+# finds the number to represent variables
+def db_table_decoder(database, table):
+    global db_and_table_list
+    # finds numerical representation of the variables used in that table
+    keys = table_variable_keys[table]
+    # finds the actual variables and their types for use in database construction
+    variables = [table_variables_dict[item] for item in keys]
+    # print(variables)
+
+    return database, table.upper(), variables
+
+
+# [variable, variable2, list, unixvariable]
+# will comb through a list or lists and make tuples using the variables for inserting into a database.
+def in_tuple(variable_list):
+    tuple_count_l = []  # list of the lengths of lists passed to the function. stored to compare length
+    tuples = []
+
+    # sorting out any function call not containing a list or tuple of values as that would
+    # negate using this function
+    if type(variable_list) == list or type(variable_list) == tuple:
+        # set the number of tuples to be created as the length of the first list
+        for item in variable_list:
+            if type(item) == list:
+                tuple_count_l.append(len(item))
+            else:
+                pass
+    else:
+        print(
+            '::ERROR:: at \"in_tuple()\" function call, passed data container can only be a list or tuple type,'
+            ' (which can contain all data types)')
+        return
+
+    # make sure there is at least one list passed to the function
+    if len(tuple_count_l) == 0:
+        print('::ERROR:: at \"in_tuple()\" function call, passed data must contain at least one list. single data\
+tuples can be inserted using the \"input_one()\" function')
+        return
+    else:
+        pass
+
+    # sets the tuple_count (the amount of tuples to be created)
+    # set the tuple number as the only list length if there is only one passed
+    if len(tuple_count_l) == 1:
+        tuple_count = tuple_count_l[0]
+    else:
+        base = tuple_count_l[0]
+        for num in tuple_count_l:
+            if base - num == 0:
+                pass
+            else:
+                print(f'::ERROR:: at \'in_tuple\' call. passed data contains two lists of unequal length.\
+lengths are as follows:{tuple_count_l} (must be equal)')
+                return
+        tuple_count = tuple_count_l[0]
+    # generates the tuples to be passed to be passed back
+    for i in range(tuple_count):
+        constr = []
+        for item in variable_list:
+            if type(item) == list:
+                constr.append(item[i])
+            else:
+                constr.append(item)
+        tuples.append(tuple(constr))
+
+    return tuples
+
+
+# primarily used in core functions to find the path of a database from a database name
+def db_pathfinder(name):
+    global cwd
+    db = name
+
+    if name[(len(name) - 3):(len(name))] != '.db':
+        db += '.db'
+    else:
+        db = name
+    db_path = f'{cwd}/{db}'
+
+    return db, db_path
+
+
+# input one tuple of variables into a database table
+def input_one(db_name, table, insert_tuple):
+    # find the pathway to the database and correct name errors
+    db, db_pathway = db_pathfinder(db_name)
+
+    # find tables, variables, and generate command parts
+    db_i = poke_dbs(db, table)
+    db_l = len(db_i[1])
+    par = generate_blank_par(int(db_l))
+
+    try:
+        conn = sqlite3.connect(db_pathway)
+        c = conn.cursor()
+
+        c.execute(f"""INSERT INTO {table} VALUES{par}""", insert_tuple)
+        conn.commit()
+        conn.close()
+        return True
+    except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as e:
+        print(e)
+        return False
+
+
+# insert a list of tuples into a database table
+# list_of_tuples would look like this: [('data', data), (data, data), (data, data)]
+def input_mult(db_name, table, list_of_tuples):
+    # find the pathway to the database and correct name errors
+    db, db_pathway = db_pathfinder(db_name)
+
+    db_i = poke_dbs(db, table)
+    db_l = len(db_i[1])
+    par = generate_blank_par(int(db_l))
+
+    try:
+        conn = sqlite3.connect(db_pathway)
+        c = conn.cursor()
+        c.executemany(f"""INSERT INTO {table} VALUES{par}""", list_of_tuples)
+        conn.commit()
+        conn.close()
+        return True
+    except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as e:
+        print(e)
+        return False
+
+
+# used for selecting from a database using a function call and then returning results
+def db_sel(database_name, ex_):
+    name, pathway = db_pathfinder(database_name)
+    results_l = []
+
+    # connect to a database and if it doesn't exist, terminate the function call
+    try:
+        conn = sqlite3.connect(Path(pathway))
+        c = conn.cursor()
+    except (sqlite3.OperationalError, sqlite3.ProgrammingError, FileNotFoundError):
+        print(f'::ERROR:: database \"{name}\" does not exist, please check the database list')
+        return False, ''
+
+    # check if the passed command variable is a list or a string and execute accordingly
+    if isinstance(ex_, list):
+        # for every command in passed list, execute and save the result into a dictionary
+        for item in ex_:
+            try:
+                c.execute(f'{item}')
+
+                data = c.fetchall()
+                for result in data:
+                    results_l.append(result)
+            except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
+                print(err)
+                exit()
+        if len(results_l) >= 1:
+            return True, results_l
+        else:
+            return False, results_l
+    elif isinstance(ex_, str):
+        # execute the single command givin in string form and return the result
+        try:
+            c.execute(f'{ex_}')
+            results_s = c.fetchall()
+            conn.close()
+            if len(results_s) >= 1:
+                return True, results_s
+            else:
+                return False, results_s
+        except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
+            print(err)
+            exit()
+    else:
+        print('::ERROR:: Passed select query must be either \'List\' or \'str\' type')
+        exit()
+
+
+# used for running commands without returning data
+def db_ex(database_name, ex_):
+    name, pathway = db_pathfinder(database_name)
+
+    # connect to a database and if it doesn't exist, terminate the function call
+    try:
+        conn = sqlite3.connect(Path(pathway))
+        c = conn.cursor()
+    except (sqlite3.OperationalError, sqlite3.ProgrammingError, FileNotFoundError):
+        print(f'::ERROR:: database \"{name}\" does not exist, please check the database list')
+        return False
+
+    # check if the passed command variable is a list or a string and execute accordingly
+    if isinstance(ex_, list):
+        # for every command in passed list, execute the string
+        for item in ex_:
+            try:
+                c.execute(f'{item}')
+            except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
+                print(err)
+                exit()
+        conn.commit()
+        conn.close()
+        return True
+    elif isinstance(ex_, str):
+        # execute the single command given in string form
+        try:
+            c.execute(f'{ex_}')
+            conn.commit()
+            conn.close()
+            return True
+        except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
+            print(err)
+            exit()
+    else:
+        print('::ERROR:: Passed select query must be either \'List\' or \'str\' type')
+        exit()
+
+
+# if passed a list of tuples or a tuple, will check and pass back entries not in the db
+def pop_stored(database, table, tuple_data, cond_list):
+    # expanding conditions to integers and remove entries in the database already
+    has_list = False
+
+    if type(tuple_data) == list:
+        has_list = True
+    else:
+        pass
+
+    def expand_conds(conds_n):
+        cond_index = []
+        try:
+            for num in conds_n:
+                if ':' in str(num):
+                    start, stop = num.split(':')
+                    res = [item for item in range(int(start), int(stop) + 1)]
+
+                    for n in res:
+                        cond_index.append(n)
+                else:
+                    cond_index.append(num)
+        except (TypeError, ValueError) as e:
+            print(
+                f'::ERROR:: at \'cond_input()\' call. given condition list contains non integer: {cond_list} >or> {e} ')
+            return e
+        cond_index = [*set(cond_index)]
+        return cond_index
+
+    # Check the table and database to make sure they exist and count table rows to make sure correct # of vars is given
+    def db_check(database_, table_, insert_data):
+        if database_ != "" and table_ != "":
+            exists, info = poke_dbs(database_, table_)
+            # the number of variables in the table
+        else:
+            print(f"""::ERROR:: at cond_input. Passed database and table do 
+            not exist \" {database_}\" AND \"{table_} \"""")
+            return False, 0
+
+        vars_ = len(info)
+
+        # Check if the database exists and the correct # of variables was passed
+        len_err = f"::ERROR:: at cond_input(), passed data tuple " \
+                  f"\"{insert_data}\" contains the wrong number of variables \"{vars_}\""
+        if exists is True and type(insert_data) == list:
+            if len(insert_data[0]) == int(vars_):
+                return True, len(insert_data[0])
+            else:
+                print(len_err)
+                return False
+        elif exists is True and type(insert_data) == tuple:
+            if len(insert_data) == int(vars_):
+                return True, len(insert_data)
+            else:
+                print(len_err)
+                return False, len(insert_data)
+        else:
+            return
+
+    def gen_commands(database_, table_, insert_data, has_list_, cond):
+
+        base_sel = f"SELECT * FROM {table_} WHERE"
+        # A list of the variable column names from the database table
+        search = poke_dbs(database_, table_, )
+        t_vars = [var[0] for var in search[1]]
+
+        # generate the tuple.
+        if has_list_ is True:
+            commands_ = []
+            # interate over every tuple in the list
+            for tup in insert_data:
+                cmd = base_sel
+
+                for count, number in enumerate(cond):
+                    # tvar is table variable name
+                    tvar = t_vars[number]
+                    # qvar is the name of a tuple variable
+                    qvar = tup[number]
+
+                    # make sure numbers are submitted without quotation marks
+                    try:
+                        int(qvar)
+                        cmd += f' {tvar} = {qvar}'
+                    except ValueError:
+                        cmd += f''' {tvar} = "{qvar}"'''
+
+                    if (count + 1) == len(cond):
+                        cmd += ';'
+                    else:
+                        cmd += ' AND'
+                ap = [tup, cmd]
+                commands_.append(ap)
+            return commands_
+
+        # for single tuple
+        else:
+            cmd = base_sel
+            for count, number in enumerate(cond):
+                tvar = t_vars[number]
+                qvar = insert_data[number]
+
+                # make sure numbers are submitted without quotation marks
+                try:
+                    int(qvar)
+                    cmd += f' {tvar} = {qvar}'
+                except ValueError:
+                    cmd += f''' {tvar} = "{qvar}"'''
+
+                if (count + 1) == len(cond):
+                    cmd += ';'
+                else:
+                    cmd += ' AND'
+            command = [insert_data, cmd]
+        return command
+
+    def filter_stored(db_name, mixed_list, has_list_):
+        # mixed_list[1] is the command and mixed_list[0] is the base data tuple
+        input_tup = [item[0] for item in mixed_list]
+        uq_sub = []
+
+        if has_list_ is True:
+            for count, pair in enumerate(mixed_list):
+                select = pair[1]
+                in_db, tr = db_sel(db_name, select)
+                if in_db is True:
+                    pass
+                else:
+                    if has_list_ is True:
+                        uq_sub.append(input_tup[count])
+                    else:
+                        uq_sub.append(input_tup)
+            return uq_sub
+        else:
+            select = mixed_list[1]
+            uq_tup = ()
+            in_db, tr = db_sel(db_name, select)
+            if in_db is True:
+                pass
+            else:
+                if has_list_ is True:
+                    uq_tup = mixed_list[0]
+                else:
+                    uq_tup = mixed_list[0]
+        return uq_tup
+
+    def check_vars(database_, table_, tuple_data_, cond):
+        tf, dbv = poke_dbs(database_, table_)
+        dbv_l = 0
+        if type(tuple_data_) == list:
+            dbv_l = len(dbv)
+
+        elif type(tuple_data_) == tuple:
+            dbv_l = len(dbv)
+        if cond[-1] <= dbv_l + 1:
+            return True
+        else:
+            return False
+
+    # create a list of numbers representing the conditions to be searched
+    conds_ = expand_conds(cond_list)
+    check = check_vars(database, table, tuple_data, conds_)
+    if check is False:
+        print("::ERROR:: passed conditions ")
+        exit()
+    else:
+        pass
+    # check to make sure the database and table given exists also that the right number of vars is passed
+    db_exists, t_var_len = db_check(database, table, tuple_data)
+    if db_exists is True:
+        pass
+    else:
+        return ""
+    # generate the select commands for searching the database for matches
+    commands = gen_commands(database, table, tuple_data, has_list, conds_)
+    # filter out all the listed items with a copy of conditions in the database
+    uq = filter_stored(database, commands, has_list)
+    return uq
+
+
+# convert any python object not comp with sqlite to JSON for storage
+def serialize(input_string):
+    serial = [list, dict]
+    tuples = []
+    command = []
+
+    # serialize all the listed types in multiple tuples
+    if type(input_string) == list:
+        for tup in input_string:
+            command = []
+            for var in tup:
+                if type(var) in serial:
+                    command.append(json.dumps(var))
+                else:
+                    command.append(var)
+            tuples.append(tuple(command))
+        return tuples
+
+    # serialize one single tuple value
+    else:
+        for var in input_string:
+            if type(var) in serial:
+                command.append(json.dumps(var))
+            else:
+                command.append(var)
+        tuple_ = tuple(command)
+        return tuple_
+
+
+def deserialize(input_string):
+    tuples = []
+
+    # deserialize all the listed types in multiple tuples
+    if type(input_string) == list:
+        for tup in input_string:
+            command = []
+            for var in tup:
+                try:
+                    command.append(json.loads(var))
+                except ValueError:
+                    command.append(var)
+            tuples.append(tuple(command))
+        return tuples
+
+    else:
+        # process and deserialize a single tuple.
+        command = []
+        for var in input_string:
+            try:
+                command.append(json.loads(var))
+            except ValueError:
+                command.append(var)
+        tuple_ = tuple(command)
+        return tuple_
+
+
+def cond_input(database, table, insert_data, cond_list):
+    ser_tuples = serialize(insert_data)
+    insert_tuples = pop_stored(database, table, ser_tuples, cond_list)
+
+    if type(insert_tuples) == list and len(insert_tuples) >= 1:
+        input_mult("testing", "tdata", insert_tuples)
+    elif type(insert_tuples) == tuple and len(insert_tuples) >= 1:
+        input_one("testing", "tdata", insert_tuples)
+    else:
+        pass
+
+
+# organizes the output of 'find_database_structure()' to be more visually appealing
+def generate_db_visualizer():
+    # contains each database, the tables, variables, and types. seperated in list form
+    base_format = '''\n
+                DATABASE
+        TABLES		+======+
+TYPE:VARIABLES	+====+		|		
++---------------+---------------+
+| CHUCKLENUTS	|DBL		|
+'''
+
+    s1 = find_database_structure()
+    addition = ''
+    for entry in s1:
+        database = entry[0]
+        addition += f'+---------------+---------------+vv{database}\n'
+        # a list containing table names [0] and the variable type pairs for [1] of each list "[table, [[var, type],
+        # [var, type]]]"
+        tbl_and_var = entry[1]
+
+        for item in tbl_and_var:
+            # contains the variables and types in a format to be added to the final result
+
+            var_pairs = item[1]
+            table = item[0]
+
+            addition += f'+---------------+{table}\n'
+            for entr in var_pairs:
+                type_ = entr[1]
+                var = entr[0]
+
+                # adds a pair of variables and it's type
+                addition += f'>{type_}: {var}\n'
+        addition += '+---------------+---------------+^^\n\n'
+    visualized = base_format + addition
+
+    return True, visualized
 
 
 # will generate a list of input commands for "poke_dbs_ui()". specialized and not meant for other usages
@@ -422,433 +869,7 @@ def db_findpath(name):
     if os.path.exists(db_path) is True:
         return True, db_path
     else:
-        return False, db_path
-
-
-# primarily used in core functions to find the path of a database from a database name
-def db_pathfinder(name):
-    global cwd
-    db = name
-
-    if name[(len(name) - 3):(len(name))] != '.db':
-        db += '.db'
-    else:
-        db = name
-    db_path = f'{cwd}/{db}'
-
-    return db, db_path
-
-
-# [variable, variable2, list, unixvariable]
-# will comb through a list or lists and make tuples using the variables for inserting into a database. 
-def in_tuple(variable_list):
-	tuple_count = 0  # number of tuple to be made
-	tuple_count_l = []  # list of the lengths of lists passed to the function. stored to compare length
-	list_num = 0  # number of lists passed to the function. multiple allowed if they are the same length
-	tuples = []
-	
-	
-	# sorting out any function call not containing a list or tuple of values as that would
-	# negate using this function
-	if type(variable_list) == list or type(variable_list) == tuple:
-		# set the number of tuples to be created as the length of the first list
-		for item in variable_list:
-			if type(item) == list:
-				tuple_count_l.append(len(item))
-			else:
-				pass
-	else:
-			print('::ERROR:: at \"in_tuple()\" function call, passed data container can only be a list or tuple type, (which can contain all data types)')
-			return
-		
-	# make sure there is at least one list passed to the function
-	if len(tuple_count_l) == 0:
-		print('::ERROR:: at \"in_tuple()\" function call, passed data must contain at least one list. single data\
-tuples can be inserted using the \"input_one()\" function')
-		return
-	else:
-		pass
-	
-	# sets the tuple_count (the amount of tuples to be created)
-	# set the tuple number as the only list length if there is only one passed
-	if len(tuple_count_l) == 1:
-		tuple_count = tuple_count_l[0]
-	else:	
-		base = tuple_count_l[0]
-		for num in tuple_count_l:
-			if base - num == 0:
-				pass
-			else:
-				print(f'::ERROR:: at \'in_tuple\' call. passed data contains two lists of unequal length.\
-lengths are as follows:{tuple_count_l} (must be equal)')
-				return
-		tuple_count = tuple_count_l[0]
-	# generates the tuples to be passed to be passed back
-	for i in range(tuple_count):
-		constr = []
-		for item in variable_list:
-			if type(item) == list:
-				constr.append(item[i]) 
-			else:
-				constr.append(item)
-		tuples.append(tuple(constr)) 
-	
-	return tuples
-
-
-# input one tuple of variables into a database table
-def input_one(db_name, table, insert_tuple):
-    # find the pathway to the database and correct name errors
-    db, db_pathway = db_pathfinder(db_name)
-
-    # find tables, variables, and generate command parts
-    db_i = poke_dbs(db, table)
-    db_l = len(db_i[1])
-    par = generate_blank_par(int(db_l))
-
-    try:
-        conn = sqlite3.connect(db_pathway)
-        c = conn.cursor()
-
-        c.execute(f"""INSERT INTO {table} VALUES{par}""", insert_tuple)
-        conn.commit()
-        conn.close()
-        return True
-    except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as e:
-        print(e)
-        return False
-
-
-# insert a list of tuples into a database table
-# list_of_tuples would look like this: [('data', data), (data, data), (data, data)]
-def input_mult(db_name, table, list_of_tuples):
-    # find the pathway to the database and correct name errors
-    db, db_pathway = db_pathfinder(db_name)
-
-    db_i = poke_dbs(db, table)
-    db_l = len(db_i[1])
-    par = generate_blank_par(int(db_l))
-
-    try:
-        conn = sqlite3.connect(db_pathway)
-        c = conn.cursor()
-        c.executemany(f"""INSERT INTO {table} VALUES{par}""", list_of_tuples)
-        conn.commit()
-        conn.close()
-        return True
-    except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as e:
-        print(e)
-        return False
-
-
-# used for selecting from a database using a function call and then returning results
-def db_sel(database_name, ex_):
-	name, pathway = db_pathfinder(database_name)
-	results_l = []
-
-	# connect to a database and if it doesn't exist, terminate the function call
-	try:
-		conn = sqlite3.connect(Path(pathway))
-		c = conn.cursor()
-	except (sqlite3.OperationalError, sqlite3.ProgrammingError, FileNotFoundError):
-		print(f'::ERROR:: database \"{name}\" does not exist, please check the database list')
-		return False, ''
-
-	# check if the passed command variable is a list or a string and execute accordingly
-	if isinstance(ex_, list):
-		# for every command in passed list, execute and save the result into a dictionary
-		for item in ex_:
-			try:
-				c.execute(f'{item}')
-
-				data = c.fetchall()
-				for result in data:
-					results_l.append(result)
-			except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
-				print(err)
-				exit()
-		if len(results_l) >= 1:
-			return True, results_l
-		else:
-			return False, results_l
-	elif isinstance(ex_, str):
-		# execute the single command givin in string form and return the result
-		try:
-			c.execute(f'{ex_}')
-			results_s = c.fetchall()
-			conn.close()
-			if len(results_s) >= 1:
-				return True, results_s
-			else:
-				return False, results_s
-		except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
-			print(err)
-			exit()
-	else:
-		print('::ERROR:: Passed select query must be either \'List\' or \'str\' type')
-		exit()
-
-
-# used for running commands without returning data
-def db_ex(database_name, ex_):
-    name, pathway = db_pathfinder(database_name)
-
-    # connect to a database and if it doesn't exist, terminate the function call
-    try:
-        conn = sqlite3.connect(Path(pathway))
-        c = conn.cursor()
-    except (sqlite3.OperationalError, sqlite3.ProgrammingError, FileNotFoundError):
-        print(f'::ERROR:: database \"{name}\" does not exist, please check the database list')
-        return False
-
-    # check if the passed command variable is a list or a string and execute accordingly
-    if isinstance(ex_, list):
-        # for every command in passed list, execute the string
-        for item in ex_:
-            try:
-                c.execute(f'{item}')
-            except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
-                print(err)
-                exit()
-        conn.commit()
-        conn.close()
-        return True
-    elif isinstance(ex_, str):
-        # execute the single command given in string form
-        try:
-            c.execute(f'{ex_}')
-            conn.commit()
-            conn.close()
-            return True
-        except (KeyError, sqlite3.OperationalError, sqlite3.ProgrammingError) as err:
-            print(err)
-            exit()
-    else:
-        print('::ERROR:: Passed select query must be either \'List\' or \'str\' type')
-        exit()
-
-
-# generate the tuple containing lists into a list of tuples
-def cond_generate_tup(input_data):
-	has_list = False
-	
-	if type(input_data) == tuple:
-		pass
-	else:
-		print(f'::ERROR:: at cond_generate_tup. Provided input data \"{input_data}\" is not in a tuple')
-		exit()
-	
-	
-	# determine if there is a list in the tuple
-	for entry in input_data:
-		if type(entry) is list:
-			has_list = True
-			break
-		else:
-			pass
-	
-	# create the tuples used to submit data to the database
-	if has_list is True:
-		ulst = in_tuple(input_data)
-		# create input and select command for the function next
-		
-	else:
-		ulst = input_data
-	return has_list, ulst
-	
-	
-# SELECT * FROM table WHERE variable = in AND variable2 = in2;
-def cond_sel_filter(db_name, table, input_tup, cond_list, has_list):
-	# for every insert tuple, use the indexes of the conditions to create a select command and then execute it.
-	base_sel = f"SELECT * FROM {table} WHERE"
-	
-	search = poke_dbs(db_name, table,)
-	t_vars = [var[0] for var in search[1]]
-	
-	commands = []
-	cmd = ''
-	
-	# check if there is a list to expand in the 
-	if has_list is True:
-		for tup in input_tup:
-			cmd = base_sel
-			
-			for count, number in enumerate(cond_list):		
-				tvar = t_vars[number]
-				qvar = tup[number]
-
-				# make sure numbers are submitted without quotation marks
-				try:
-					int(qvar)
-					cmd += f' {tvar} = {qvar}'
-				except ValueError:
-					cmd += f''' {tvar} = "{qvar}"'''
-					
-				if (count + 1) == len(cond_list):
-					cmd += ';'
-				else:
-					cmd += ' AND'
-			commands.append(cmd)
-
-	
-	# for single tuple in theory
-	else:
-		cmd = base_sel
-		for count, number in enumerate(cond_list):
-			tvar = t_vars[number]
-			qvar = input_tup[number]
-
-			# make sure numbers are submitted without quotation marks
-			try:
-				int(qvar)
-				cmd += f' {tvar} = {qvar}'
-			except ValueError:
-				cmd += f''' {tvar} = "{qvar}"'''
-				
-			if (count + 1) == len(cond_list):
-				cmd += ';'
-			else:
-				cmd += ' AND'
-		commands.append(cmd)
-	
-	uq_sub = []
-	for count, select in enumerate(commands):
-		in_db, tr = db_sel(db_name, select)
-		if in_db is True:
-			pass
-		else:
-			if has_list is True:
-				uq_sub.append(input_tup[count])
-			else:
-				uq_sub.append(input_tup)
-				
-	# if there are any results, the first return is True, if none, it is false
-	if len(uq_sub) == 0:
-		return False, uq_sub
-	else:
-		return True, uq_sub
-
-def cond_input(database, table, insert_data, cond_list):
-	# stop tuples and empty conditions lists from reaching definitions of variables
-	if type(cond_list) == list:
-		if len(cond_list) == 0:
-			print(f'::ERROR:: at \"cond_input\" call. Conditions list: \"{cond_list}\" is empty, there must be at lease one index.') 
-			return
-		else:
-			pass	
-	else:
-		print(f'::ERROR:: at \"cond_input\" call. The provided conditions list is a tuple but must be a list')
-		return
-		
-	# make sure that the database and table exist. also verify the number of passed variables matches the
-	# number of variables in the passed table and make sure a db+table is passed before continuing
-	search = poke_dbs(database, table)
-	# the count of variables in the given table.
-	v_len = len(search[1])
-	# list with indexes representing variables to search for before inputting tuple
-	cond_index = []
-	
-	# check to make sure the database and table exist before processing request and that passed
-	# database and table are not blank
-	if search[0] is False:
-		print(f'::ERROR:: at \'cond_input()\' call. {search[1]}')
-		return
-	elif table == '' or database == '':
-		print(f'::ERROR:: at \'cond_input()\' call. a table and database must be given and not (a) blank string(s) >> \"\"')
-		return
-	else:
-		pass
-		
-	# will add all numbers to a list and generate all number ranges into numbers
-	try:
-		for num in cond_list:
-			if ':' in str(num):
-				start, stop = num.split(':')
-				# turns the range into individual numbers so duplicates can be found
-				res = [item for item in range(int(start), int(stop)+1)]
-				
-				for n in res:
-					cond_index.append(n)
-			else:
-				cond_index.append(num)
-	except (TypeError, ValueError) as e:
-		print(f'::ERROR:: at \'cond_input()\' call. given condition list contains non integer: {cond_list} >or> {e} ')
-		return
-	
-	# sorts and then removes duplicates from number list
-	cond_index = [*set(cond_index)]
-		
-	# find the names of the table variables and make sure the conditions list is no longer 
-	# than the amount of table variables 
-	t_vars = [var[0] for var in search[1]]
-	cond_index.sort()	
-	compare = cond_index[-1]
-	compare2 = len(t_vars)
-	
-	# check to make sure the number of conditions is no higher than the number of table variables
-	# check to make sure condition call contains all numbers
-	try:
-		if (compare2- 1) >= compare:
-			pass
-		else:
-			print(f'::ERROR:: at \"cond_input()\" call. number in passed conditions \n \"{compare}\"\
-is higher than the number of table variables: \"{table}\" with \"0-{compare2 - 1}\"')
-			return
-	except TypeError as e:
-		print(f'::ERROR:: at \"cond_input()\" call. Passed condition list contains non-numbers: \"{cond_list}\"')
-		return 
-	# t_vars is the list of variable names from the selected table in order.
-	# cond_index is the list of numbers used to determine conditional inputting
-	
-	# convert any lists within the input tuple in a list of tuples or keep normal tuples the same
-	has_list, inputs = cond_generate_tup(insert_data)
-	
-	# will use condition list, table, db name, and input tuple(s) to search and remove existing data tuples from the
-	# list of data to be entered 
-	unq, inputs_list = cond_sel_filter(database, table, inputs, cond_index, has_list)
-	print(unq)
-	print(inputs_list)
-	
-	# input the data into a database
-	if has_list is True and unq is True:
-		input_mult(database, table, inputs_list)
-	elif has_list is False and unq is True:
-		single = tuple(inputs_list[0])
-		print(inputs_list[0])
-		input_one(database, table, single)
-	else:
-		pass
-	return 
-	
-	
-	# finish the command generation!! then:
-	# code to select the given indexes and compare them to the input indexes
-	# delete all indexes found to be duplicate using pop(index) wit two versions of the list <<
-	# then submit all remaining of the inserts to input_mult function
-
-
-def program_info():
-    info = (f'''   
--------------------------------------------------------------
-    Chucklenuts_DBL.{cndbl_version} Program information:
--------------------------------------------------------------
-____________
-OS VERSIONS: 
-Linux, tested on: (debian, ubuntu, pop OS)
-Windows, (NOT SUPPORTED)
-MAC OS, (NOT SUPPORTED)
-_________________
-WEB CONNECTIVITY:
-All functions are offline
-_________
-DBMS: 
-Chucklenuts_DBL.{cndbl_version} uses SQlight3 for Python
-_______________
-THREAD USAGE: 1
-DEVELOPER: DrDoofinshmekel
-GITHUB: https://github.com/DrDoofinshmekel'''
-            )
-    print(info)
+        return False, "None"
 
 
 def terminal_manager():
@@ -864,10 +885,8 @@ def terminal_manager():
 {res_line}
 DATABASE: SELECTING
 PATHWAY: N/A
-
 please select a database with the corresponding index
 or enter 'q' to exit Terminal Manager
-
 {sepline}	
 """
 
@@ -898,7 +917,7 @@ def database_terminal(db_name):
     global ex
     db, db_pathway = db_pathfinder(db_name)
     qline1 = '	┗━══━━══━━══━━══━━══━━══━━══━━══━━══━'
-    qspace2 = ('	' + '┃-')
+    qspace2 = ('	' + '┃*')
     sepline = ('━══━' * 20)
     res_line = (('█' + '═━━═' * 25) + '█')
     logo = f"""
@@ -910,10 +929,8 @@ def database_terminal(db_name):
 {res_line}
 DATABASE: {db}
 PATHWAY: {db_pathway}
-
 !!db_terminal is to be used for searching database variables, all command outputs are printed to the terminal.!!
             enter commands to add them to the queue
-
 '<' executes all commands in the queue
 '<out' executes all commands in the queue and writes the output to a text file in the server directory
 '<<' deletes the last command added to the queue
@@ -1079,9 +1096,44 @@ PATHWAY: {db_pathway}
     return True
 
 
+def program_info():
+    info = (f'''   
+-------------------------------------------------------------
+    Chucklenuts_DBL.{cndbl_version} Program information:
+-------------------------------------------------------------
+____________
+LICENSE:
+GNU General Public License v3.0
+____________
+OS VERSIONS: 
+Linux, supported on: (debian, ubuntu, pop OS)
+Windows, supported on: (windows 10)
+MAC OS, (NOT SUPPORTED)
+_________________
+WEB CONNECTIVITY:
+All functions are offline
+_________
+DBMS:
+Chucklenuts_DBL.{cndbl_version} uses SQlight3 for Python
+_______________
+THREAD USAGE: 1
+_______________
+DEVELOPER: DrDoofinshmekel
+GITHUB: https://github.com/DrDoofinshmekel'''
+)
+    print(info)
+    
+
 # function aliases (can be used to call a given function)
-fds = find_database_structure  # find_database_structure()
-rds = refresh_database_structures  # refresh_database_structure()
-t_man = terminal_manager  # terminal_manager()
-dbt = database_terminal  # database_terminal()
-g_dbv = generate_db_visualizer  # generate_db_visualizer()
+fds = find_database_structure
+rds = refresh_database_structures
+t_man = terminal_manager
+dbt = database_terminal
+g_dbv = generate_db_visualizer
+ps = pop_stored
+
+rds()
+expand = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+enter = in_tuple(("name", expand, "tet", "set"))
+
+print(database_terminal("testing"))

@@ -1,5 +1,34 @@
 # Changelog of Chucklenuts_DBL
 
+## Version 0.3, **02/02/23** 
+
+**NOTE:**
+Major code restructuring and overall improvements came with 0.3. Also, data serialization is now supported! Python objects can be stored and retrieved from databases using JSON. No [Pickle](https://docs.python.org/3/library/pickle.html) serialization or [Marshal](https://docs.python.org/3/library/marshal.html) object serialization is supported to prevent risk of serialization being used as an attack vecor through stored data as described here: [pickle vuln](https://stackoverflow.com/questions/21752259/python-why-pickle) and [Marshal vuln](https://stackoverflow.com/questions/26931919/marshal-unserialization-not-secure)
+
+**CHANGES:**
+* Re-wrote “cond_input()” for efficiency, readability, and made to be modular with support for data serialization with JSON and changed the function.
+* Now “cond_input()” does not expand list variables into multiple tuples, "in_tuple()" should be used before submission of data.
+* Now “cond_input()” can submit Python objects to the database and retrieve them automatically u4sing JSON serialization.
+* Altered multiple functions to have dependency funtions nested for de-cluttering and better scope.
+* Altered "database_terminal()" so the command queue prefix is "*" instead of "-"
+
+**FIXES**
+* Fixed all PEP8 convention violations
+
+**ADDITIONS:**
+* Added “pop_stored()” with the ability to process a list and pass back all the items not in a database table.
+* Added “serialize()” with funtion to serialize Python objects in a passed tuple or list of tuples.
+* Added “deserialize()” with function to deserialize any viable Python objects in a tuple or list of tuples.
+* Added 
+
+**REMOVED**
+* "Setup()" removed in favor on online dictionary and lighter weight code.
+
+
+
+*ALIASES* (can call functions with alternate names)
+* Added "ps()" function call for "pop_stored()"
+
 ## 0.2 Patch 1, **01/08/23**
 
 **FIXES**
@@ -12,7 +41,7 @@
 **ADDITIONS:**
 * Added "cond_input()" which is used for entering data into a database only when it is not already there. Any of the passed input variables can be used as a condition when submitting the variables and the function is capable of inputing data from tuples containing a mix of lists and static variables.
 refer to the wiki for documentation and usage.
-* Added "in_tuple()" to generate a list of tuples with a combination of lists and static variables. Useful for database insertion using "input_mult()". refer to the wiki for documentation and usage
+* Added "in_tuple()" to generate a list of tuples with a combination of lists and static variables. Useful for database insertion using "input_mult()". refer to the wiki for documentation and usage.
 
 *ALIASES* (can call functions with alternate names)
 * Added "rds()" function alias for "refresh_database_structures()".
@@ -22,11 +51,11 @@ refer to the wiki for documentation and usage.
 * Added "t_man()" function alias for "terminal_manager()".
 
 **FIXES**
-* Fixed visual error in "terminal_manager" function
-* Fixed sel_one() bug which returned "True" when the selection returned nothing 
+* Fixed visual error in "terminal_manager" function.
+* Fixed sel_one() bug which returned "True" when the selection returned nothing .
 
 **CHANGES:**
-* Changed the order of functions to organize by type and function level
+* Changed the order of functions to organize by type and function level.
 
 ## Version 0.1, **12/11/22**
 
