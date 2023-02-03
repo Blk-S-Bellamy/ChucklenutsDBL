@@ -1,20 +1,25 @@
 # Changelog of Chucklenuts_DBL
 
-## Version 0.3, **01/31/23** 
+## Version 0.3, **02/02/23** 
 
 **NOTE:**
-Major code restructuring and overall improvements as well. also, Data serialization is now supported! python objects can be stored and retrieved from databases using JSON. No [Pickle](https://docs.python.org/3/library/pickle.html) serialization or [Marshal](https://docs.python.org/3/library/marshal.html) object serialization is supported to prevent risk of serialization being used as an attack vecor through stored data as follows: [pickle vuln](https://stackoverflow.com/questions/21752259/python-why-pickle) and [Marshal vuln](https://stackoverflow.com/questions/26931919/marshal-unserialization-not-secure)
+Major code restructuring and overall improvements came with 0.3. Also, data serialization is now supported! Python objects can be stored and retrieved from databases using JSON. No [Pickle](https://docs.python.org/3/library/pickle.html) serialization or [Marshal](https://docs.python.org/3/library/marshal.html) object serialization is supported to prevent risk of serialization being used as an attack vecor through stored data as described here: [pickle vuln](https://stackoverflow.com/questions/21752259/python-why-pickle) and [Marshal vuln](https://stackoverflow.com/questions/26931919/marshal-unserialization-not-secure)
 
 **CHANGES:**
-* Re-wrote “cond_input()” for efficiency, readability, and made to be modular ___with support for py object serialization___ with JSON.
+* Re-wrote “cond_input()” for efficiency, readability, and made to be modular with support for data serialization with JSON and changed the function.
 * Now “cond_input()” does not expand list variables into multiple tuples, "in_tuple()" should be used before submission of data.
-* Now “cond_input()” can submit Python objects to the database and retrieve them automatically using JSON serialization.
+* Now “cond_input()” can submit Python objects to the database and retrieve them automatically u4sing JSON serialization.
 * Altered multiple functions to have dependency funtions nested for de-cluttering and better scope.
+* Altered "database_terminal()" so the command queue prefix is "*" instead of "-"
+
+**FIXES**
+* Fixed all PEP8 convention violations
 
 **ADDITIONS:**
 * Added “pop_stored()” with the ability to process a list and pass back all the items not in a database table.
-* Added “serialize()” with funtion to serialize any list, dictionaries or sets in a passed tuple or list of tuples.
-* Added “deserialize()” with function to deserialize any viable objects in a tuple or list of tuples.
+* Added “serialize()” with funtion to serialize Python objects in a passed tuple or list of tuples.
+* Added “deserialize()” with function to deserialize any viable Python objects in a tuple or list of tuples.
+* Added 
 
 **REMOVED**
 * "Setup()" removed in favor on online dictionary and lighter weight code.
