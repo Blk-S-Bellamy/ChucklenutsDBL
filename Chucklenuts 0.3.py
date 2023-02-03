@@ -657,7 +657,7 @@ def deserialize(input_string):
             for var in tup:
                 try:
                     command.append(json.loads(var))
-                except ValueError:
+                except (ValueError, TypeError, json.JSONDecodeError):
                     command.append(var)
             tuples.append(tuple(command))
         return tuples
@@ -668,7 +668,7 @@ def deserialize(input_string):
         for var in input_string:
             try:
                 command.append(json.loads(var))
-            except ValueError:
+            except (ValueError, TypeError, json.JSONDecodeError):
                 command.append(var)
         tuple_ = tuple(command)
         return tuple_
