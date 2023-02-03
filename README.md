@@ -3,6 +3,14 @@
 
 A Python-based database management system utilizing sqlite3 module. Allows easy creation, deletion, and managment of database components and powerful console based applications for db interactions. This program stands out as an easy and fast solution to small application usages due to its tools for database visualization, creation and interaction.
 
+### Future Additions:
+* Login verification through dedicated function.
+* Database permissions and users.
+* Multiple encryption options for data security
+* Credential salting, encryping function
+* Combined tool suit for database interaction
+
+### Current Program
 * Use functions for easy integration of a database into a program without the code bloating of direct integration into native functions
 * Easily change database structure in seconds and update with a single function
 * Search the database structure and data using console based tools, allowing remote maintenance.
