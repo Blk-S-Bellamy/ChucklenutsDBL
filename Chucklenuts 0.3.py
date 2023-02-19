@@ -1135,5 +1135,3 @@ ps = pop_stored
 rds()
 expand = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 enter = in_tuple(("name", expand, "tet", "set"))
-
-print(database_terminal("testing"))
