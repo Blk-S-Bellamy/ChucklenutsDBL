@@ -1131,7 +1131,3 @@ t_man = terminal_manager
 dbt = database_terminal
 g_dbv = generate_db_visualizer
 ps = pop_stored
-
-rds()
-expand = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-enter = in_tuple(("name", expand, "tet", "set"))
