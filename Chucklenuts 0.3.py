@@ -679,9 +679,9 @@ def cond_input(database, table, insert_data, cond_list):
     insert_tuples = pop_stored(database, table, ser_tuples, cond_list)
 
     if type(insert_tuples) == list and len(insert_tuples) >= 1:
-        input_mult("testing", "tdata", insert_tuples)
+        input_mult(database, table, insert_tuples)
     elif type(insert_tuples) == tuple and len(insert_tuples) >= 1:
-        input_one("testing", "tdata", insert_tuples)
+        input_one(database, table, insert_tuples)
     else:
         pass
 
