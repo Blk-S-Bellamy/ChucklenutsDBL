@@ -27,25 +27,25 @@ A Python-based database management system utilizing sqlite3 module. Allows easy 
 In search of improving the program, the entire library of functions has been redone with a cleaner, and better core. The scripts for database core, toolbox, config, and resource pack have also been moved into different files a better collaborative and user experience. The wiki must be completely redone as well to keep up to date with the program but older versions will still be available.
 
 **0.4 FUNCTIONS**
-db.retr_attr()
-db.listall()
-db.find()
-fetch_db_inst()
+* db.retr_attr()
+* db.listall()
+* db.find()
+* fetch_db_inst()
 
-refresh_database_structures() OR rds()
-in_tuple()
-serialize()
-deserialize()
-generate_blank_par()
-input_one()
-input_mult()
-nest_detect()
-select_one()
-select_all()
-execute()
-pop_stored()
-cond_input()
-program_info()
+* refresh_database_structures() OR rds()
+* in_tuple()
+* serialize()
+* deserialize()
+* generate_blank_par()
+* input_one()
+* input_mult()
+vnest_detect()
+* select_one()
+* select_all()
+* execute()
+* pop_stored()
+* cond_input()
+* program_info()
 
 **WORKING ON**
 * Finishing the new toolbox script
