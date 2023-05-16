@@ -1,14 +1,12 @@
 # Welcome
-<img src="https://i.imgur.com/vrASZMW.jpg" width="900px" align="center">
+<img src="https://i.imgur.com/vrASZMW.jpg" width="750px" align="center">
 
 A Python-based database management system utilizing sqlite3 module. Allows easy creation, deletion, and managment of database components and powerful console based applications for db interactions. This program stands out as an easy and fast solution to small application usages due to its tools for database visualization, creation and interaction.
 
 ### Future Additions:
-* Login verification through dedicated function.
-* Database permissions and users.
-* Multiple encryption options for data security
-* Credential salting, encryping function
-* Combined tool suit for database interaction
+* toolbox for interacting with the database and data is almost complete
+* image and video storage
+* encryption at rest for database under a certain size parameter
 
 ### Current Program
 * Use functions for easy integration of a database into a program without the code bloating of direct integration into native functions
@@ -23,14 +21,14 @@ A Python-based database management system utilizing sqlite3 module. Allows easy 
 *Need help with functions, setup, bugs, or suggestions? Visit the wiki and take a look around. All in-depth documentation is stored there and updates will see new content there*
 
 ## [Written in Python 3](https://docs.python.org/3/index.html)
-<img src="https://i.imgur.com/NfdERT5.png" width="150px" align="center">
+<img src="https://i.imgur.com/NfdERT5.png" width="50px" align="center">
 
 ## [Uses Sqlite3 for Python](https://docs.python.org/3/library/sqlite3.html)
-<img src="https://i.imgur.com/RA8FlnE.png" width="150px" align="center">
+<img src="https://i.imgur.com/RA8FlnE.png" width="50px" align="center">
 
 ## Written on Linux for Linux and Windows 10
-<img src="https://i.imgur.com/BNQ8q8W.png" width="150px" align="center">
-<img src="https://i.imgur.com/GuuJ17W.png" width="150px" align="center">
+<img src="https://i.imgur.com/BNQ8q8W.png" width="50px" align="center">
+<img src="https://i.imgur.com/GuuJ17W.png" width="50px" align="center">
 
 ## Create A Database in Moments!
 Easily create multiple databases filled with custom tables and variables simply by adding variables, tables, and databases to lists and running the setup! 
