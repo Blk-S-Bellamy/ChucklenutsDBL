@@ -1,54 +1,20 @@
 # Welcome
 <img src="https://i.imgur.com/vrASZMW.jpg" width="750px" align="center">
 
+Although version 0.3 contains a full toolbox suite as well as a finctional program, version 0.4 a re-write,will be to supported version going forward. In order to provide a simplistic, readable, tidy, code base that allows for collaboration as well as ease of use for integration into scripts, nearly every line has been rebuilt from the ground up.
+***improvements to 0.4
+* The core database script is contained within "Chucklenuts_0.4" and has been re-written for readability and performance.
+* The toolbox (almost complete, 1-3 days away) is a seperate script which __uses a standalone python resource pack__ to display the graphical aspects meaning, a custom resource pack is straightforward to create.
+* The database config (how databases are listed to be built) is a seperate file which allows for easy editing and swapping it out to experiment
+
+***working on
+* Finishing the new toolbox script
+* Easy config is on the to-do list
+* Easy image and file storage is on the to-do list
+* pep-8 standard cleanup is on the to-do list
+ 
 A Python-based database management system utilizing sqlite3 module. Allows easy creation, deletion, and managment of database components and powerful console based applications for db interactions. This program stands out as an easy and fast solution to small application usages due to its tools for database visualization, creation and interaction.
 
-### Future Additions:
-* toolbox for interacting with the database and data is almost complete
-* image and video storage
-* encryption at rest for database under a certain size parameter
-
-### Current Program
-* Use functions for easy integration of a database into a program without the code bloating of direct integration into native functions
-* Easily change database structure in seconds and update with a single function
-* Search the database structure and data using console based tools, allowing remote maintenance.
-* Have the entire database structure simplified so you can focus on your project, not missing data, tables, or sqlite errors!
-
-* 🔺 CNDBL is under continuing development and as such, will have more features and branches added in the future. Any suggestions are greatly appreciated.
-
-* 🔺 NOTE: Although incredibly fast, Sqlite3 for python is not capable of simultaneous database fetch requests and for this reason, this is not for applications such as web applications or any programs in need of multiple data requests in a single instance! For these uses, A MySQL database would be a better option.
-
-*Need help with functions, setup, bugs, or suggestions? Visit the wiki and take a look around. All in-depth documentation is stored there and updates will see new content there*
-
-## [Written in Python 3](https://docs.python.org/3/index.html)
-<img src="https://i.imgur.com/NfdERT5.png" width="50px" align="center">
-
-## [Uses Sqlite3 for Python](https://docs.python.org/3/library/sqlite3.html)
-<img src="https://i.imgur.com/RA8FlnE.png" width="50px" align="center">
-
-## Written on Linux for Linux and Windows 10
-<img src="https://i.imgur.com/BNQ8q8W.png" width="50px" align="center">
-<img src="https://i.imgur.com/GuuJ17W.png" width="50px" align="center">
-
-## Create A Database in Moments!
-Easily create multiple databases filled with custom tables and variables simply by adding variables, tables, and databases to lists and running the setup! 
-All commands for database creation are handled by the program meaning, when a change is made to the structure, a function call will add the needed components.
-
-<img src="https://i.imgur.com/qxmRary.png" width="1080px" align="center">
-
-## Terminal Search Tool
-Use a terminal based search tool to explore all characteristics of your database and generate full visual charts of the structure in a fraction of a second. This is a user friendly and console based utilizing the "poke_dbs()" function for finding certain database characteristics including list of all databases, all tables in a database, all variables in a database with their datatype, and generate sample commands for inputting data. A versatile and practical tool making bug testing and exploration of database structure easy.
-
-<img src="https://i.imgur.com/CkNzmm6.png" width="1080px" align="center">
-
-<img src="https://i.imgur.com/Ho5I6Wo.png" width="1080px" align="center">
-
-## Data Search Tool
-Using the console, switch between database, search for variables in the databases or use other sql commands. Multiple commands can be added to a queue and the queue altered before submission of command list. If you want to save results simple choose the option to save as a text file. Ease of use and simple but powerful console-graphical interface make this function a breeze to utilize. 
-
-<img src="https://i.imgur.com/gr4RmlB.png" width="1080px" align="center">
-
-<img src="https://i.imgur.com/EC86pxf.png" width="1080px" align="center">
 
 
 # Changelog of Chucklenuts_DBL
