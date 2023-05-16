@@ -1,6 +1,8 @@
 # Welcome
 <img src="https://i.imgur.com/vrASZMW.jpg" width="750px" align="center">
 
+# Version 0.4 re-write
+
 Although version 0.3 contains a full toolbox suite as well as a finctional program, version 0.4 a re-write,will be to supported version going forward. In order to provide a simplistic, readable, tidy, code base that allows for collaboration as well as ease of use for integration into scripts, nearly every line has been rebuilt from the ground up.
 ***improvements to 0.4
 * The core database script is contained within "Chucklenuts_0.4" and has been re-written for readability and performance.
@@ -18,6 +20,39 @@ A Python-based database management system utilizing sqlite3 module. Allows easy 
 
 
 # Changelog of Chucklenuts_DBL
+
+## Version 0.4, **05/15/23** 
+
+**NOTE:**
+In search of improving the program, the entire library of functions has been redone with a cleaner, and better core. The scripts for database core, toolbox, config, and resource pack have also been moved into different files a better collaborative and user experience. The wiki must be completely redone as well to keep up to date with the program but older versions will still be available.
+
+**0.4 FUNCTIONS**
+db.retr_attr()
+db.listall()
+db.find()
+fetch_db_inst()
+
+refresh_database_structures() OR rds()
+in_tuple()
+serialize()
+deserialize()
+generate_blank_par()
+input_one()
+input_mult()
+nest_detect()
+select_one()
+select_all()
+execute()
+pop_stored()
+cond_input()
+program_info()
+
+**WORKING ON**
+* Finishing the new toolbox script
+* Easy config is on the to-do list
+* Automatic dependency detection and resolution 
+* Easy image and file storage is on the to-do list
+* pep-8 standard cleanup is on the to-do list
 
 ## Version 0.3, **02/02/23** 
 
