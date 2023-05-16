@@ -1,0 +1,30 @@
+"""
+|------VVEXAMPLEVV---------------|
+|END ALL ENTRIES WITH A COLON ":"|
+|------------------|-------------|
+|VARIABLES:        |
+|    VARIABLE TYPE:|
+|------------------|
+var1:
+    str:
+var2:
+    int:
+image1:
+    image:
+|------------------|
+|DATABASES:        |
+|    TABLES:       |
+|        VARIABLES:|       
+|------------------|
+images.db:
+    images_vacation:
+        image1:
+        var1:
+        var2:
+|------------------|
+
+1. Starting with a "|" means skip line
+2. Number of tabs dictates the label
+3. Tabs, colons and spaces are removed in order to find
+4. sequentially added to three dictionaries in order to create a normal config (encrypted)
+"""
