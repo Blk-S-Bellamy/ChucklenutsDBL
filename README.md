@@ -9,7 +9,7 @@ Although version 0.3 contains a full toolbox suite as well as a finctional progr
 * The toolbox (almost complete, 1-3 days away) is a seperate script which __uses a standalone python resource pack__ to display the graphical aspects meaning, a custom resource pack is straightforward to create.
 * The database config (how databases are listed to be built) is a seperate file which allows for easy editing and swapping it out to experiment
 
-***working on
+***working on**
 * Finishing the new toolbox script
 * Easy config is on the to-do list
 * Easy image and file storage is on the to-do list
