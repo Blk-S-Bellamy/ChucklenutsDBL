@@ -4,12 +4,14 @@
 
 |OS| Version | Supported          |
 | ----- | ------- | ------------------ |
-|Windows 10| 0.2| :white_check_mark: |
-|Debian/ubuntu| 0.2| :white_check_mark: |
-|Windows 10| 0.1| :white_check_mark: |
-|Debian/ubuntu| 0.1| :white_check_mark: 
-|Windows 10| Beta| :x: |
-|Debian/ubuntu| Beta| :x: |
+|Windows 10| 0.4| :white_check_mark: |
+|Debian/ubuntu| 0.4| :white_check_mark: |
+|Windows 10| 0.3| :white_check_mark: |
+|Debian/ubuntu| 0.3| :white_check_mark: |
+|Windows 10| 0.2| :x: |
+|Debian/ubuntu| 0.2| :x: |
+|Windows 10| 0.1| :x: |
+|Debian/ubuntu| 0.1| :x: |
 
 ## Reporting a Vulnerability
 
