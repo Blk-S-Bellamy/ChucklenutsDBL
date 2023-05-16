@@ -8,8 +8,8 @@
 |Debian/ubuntu| 0.2| :white_check_mark: |
 |Windows 10| 0.1| :white_check_mark: |
 |Debian/ubuntu| 0.1| :white_check_mark: 
-|Windows 10| Beta| :x: |
-|Debian/ubuntu| Beta| :x: |
+|Windows 10| :x:| :x: |
+|Debian/ubuntu| :x:| :x: |
 
 ## Reporting a Vulnerability
 
