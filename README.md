@@ -3,7 +3,7 @@
 
 # Version 0.4 re-write
 
-Although version 0.3 contains a full toolbox suite as well as a finctional program, version 0.4 a re-write,will be to supported version going forward. In order to provide a simplistic, readable, tidy, code base that allows for collaboration as well as ease of use for integration into scripts, nearly every line has been rebuilt from the ground up.
+Although version 0.3 contains a full toolbox suite as well as a finctional program, version 0.4 a re-write, will be to supported version going forward. In order to provide a simplistic, readable, tidy, code base that allows for collaboration as well as ease of use for integration into scripts, nearly every line has been rebuilt from the ground up.
 ***improvements to 0.4
 * The core database script is contained within "Chucklenuts_0.4" and has been re-written for readability and performance.
 * The toolbox (almost complete, 1-3 days away) is a seperate script which __uses a standalone python resource pack__ to display the graphical aspects meaning, a custom resource pack is straightforward to create.
