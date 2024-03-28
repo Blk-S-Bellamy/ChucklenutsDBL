@@ -1,5 +1,5 @@
 # Welcome
-<img src="https://i.imgur.com/vrASZMW.jpg" width="750px" align="center">
+##CURRENTLY REBRANDING/FORKING
 
 # Version 0.4 re-write
 
