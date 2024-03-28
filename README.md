@@ -1,5 +1,5 @@
-# Welcome
-##CURRENTLY REBRANDING/FORKING
+# DEPRECIATED IN FAVOR Of Blk-S-Bellamy/Ketersource-DB
+
 
 # Version 0.4 re-write
 
